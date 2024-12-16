@@ -13,3 +13,29 @@ hotelRoute.post("/create", async (req, res): Promise<any> => {
 
   res.status(201).json(createdHotel);
 });
+
+hotelRoute.get("/:id", async (req, res): Promise<any> => {
+  const foundHotel = await Hotel.findById(req.params.id);
+  if (!foundHotel) {
+    return res.status(404).send("Hotel not found!");
+  }
+  res.status(200).json(foundHotel);
+});
+
+hotelRoute.put("/:id", async (req, res): Promise<any> => {
+  const updates = req.body;
+  const { id } = req.params;
+  const foundHotel = await Hotel.findByIdAndUpdate(id, updates, { new: true });
+  if (!foundHotel) {
+    return res.status(404).send("Hotel not found!");
+  }
+  res.status(200).json(foundHotel);
+});
+
+hotelRoute.delete("/:id", async (req, res): Promise<any> => {
+  const deletedHotel = await Hotel.findByIdAndDelete(req.params.id);
+  if (!deletedHotel) {
+    return res.status(404).send("Hotel not found!");
+  }
+  res.status(200).send("Hotel has been deleted!");
+});

@@ -16,12 +16,7 @@ const hotelSchema = new Schema(
     hasWifi: { type: Boolean },
     price: { type: Number },
     location: { type: [Number, Number] },
-    ratings: [
-      {
-        userId: { type: Types.ObjectId, ref: MODELS.USER },
-        rating: { type: Number, min: 1, max: 5 },
-      },
-    ],
+    ratings: [{ type: Types.ObjectId }],
     averageRating: { type: Number, default: 0 },
   },
   { timestamps: true }
