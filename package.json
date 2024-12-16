@@ -1,0 +1,20 @@
+{
+  "name": "hotel-app-rest",
+  "version": "1.0.0",
+  "description": "App with RESTapi",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "nodemon src/index.ts"
+  },
+  "author": "Fazliddin Quvatboyev",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "joi": "^17.13.3",
+    "mongoose": "^8.9.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0"
+  }
+}
