@@ -40,7 +40,7 @@ userRoute.post("/signUp", async (req, res): Promise<any> => {
   res.status(201).json(createdUser);
 });
 
-userRoute.post("/signIn", (req, res) => {
+userRoute.post("/signIn", authToken, (req, res) => {
   const userEmail = req.body.email;
 
   const user = { email: userEmail };
