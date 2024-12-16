@@ -9,7 +9,7 @@ hotelRoute.post("/create", async (req, res): Promise<any> => {
   if (error) {
     return res.status(400).send(`Error during creating hotel! ${error}`);
   }
-  const createdHotel = await Hotel.create(req.body);
+  const createdHotel = await Hotel.create(value);
 
   res.status(201).json(createdHotel);
 });

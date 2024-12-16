@@ -3,12 +3,12 @@ import { MODELS } from "src/constants/models";
 
 const reviewSchema = new Schema(
   {
-    content: { type: String, required: true },
+    review: { type: String, required: true },
     rating: { type: Number, required: true, min: 1, max: 5 },
-    userId: { type: Types.ObjectId, ref: MODELS.USER, required: true },
-    hotelId: { type: Types.ObjectId, ref: MODELS.HOTEL, required: true },
+    userId: { type: Types.ObjectId, ref: MODELS.USER, required: false },
+    hotelId: { type: Types.ObjectId, ref: MODELS.HOTEL, required: false },
   },
   { timestamps: true }
 );
 
-export const Review = model("Review", reviewSchema);
+export const Review = model(MODELS.REVIEW, reviewSchema);
