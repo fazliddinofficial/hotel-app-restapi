@@ -1,25 +1,28 @@
-import Joi from "joi";
-import { CityEnum } from "src/enums/city.enum";
-import { UserRoleEnum } from "src/enums/userRole.enum";
+import { Router } from "express";
+import { User } from "./model/user.model";
+import userJoiSchema from "./validation";
 
-const userJoiSchema = Joi.object({
-  firstName: Joi.string().required(),
-  lastName: Joi.string().required(),
-  birthDate: Joi.string().isoDate().optional(),
-  phone: Joi.number().integer().optional(),
-  email: Joi.string().email().required(),
-  password: Joi.string().min(8).required(),
-  country: Joi.string().default("Uzb"),
-  address: Joi.string().optional(),
-  city: Joi.string()
-    .valid(...CityEnum)
-    .optional(),
-  postalCode: Joi.number().integer().optional(),
-  role: Joi.string()
-    .valid(...UserRoleEnum)
-    .default("User"),
-  createdAt: Joi.date().default(new Date()),
-  updatedAt: Joi.date().default(new Date()),
+const userRoute = Router();
+
+userRoute.get("/:id", async (req, res): Promise<any> => {
+  const foundUser = await User.findById(req.params.id);
+
+  if (!foundUser) {
+    return res.status(404).send("User is not found!");
+  }
+
+  res.status(200).send(foundUser);
 });
 
-export default userJoiSchema;
+userRoute.post("/signUp", async (req, res): Promise<any> => {
+  const { error, value } = userJoiSchema.validate(req.body);
+
+  if (error) {
+    return res.status(400).send("User is not created!");
+  }
+
+  const createdUser = await User.create(value);
+  res.status(201).send(createdUser);
+});
+
+userRoute.put("/");

@@ -1,6 +1,6 @@
 import { model, Schema, Types } from "mongoose";
 import { MODELS } from "src/constants/models";
-import { CityEnum } from "src/enums/city.enum";
+import { CityEnum } from "src/enums/enum/city.enum";
 
 const hotelSchema = new Schema(
   {
