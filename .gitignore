@@ -1,0 +1,14 @@
+# build
+dist
+
+# packages
+node_modules
+
+# logs
+**/*.log
+
+# IDE
+.vscode
+
+# public folders
+public
