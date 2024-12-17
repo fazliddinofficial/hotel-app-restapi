@@ -1,7 +1,7 @@
 import { model, Schema } from "mongoose";
 import { MODELS } from "src/constants/models";
-import { CityEnum } from "src/enums/city.enum";
-import { UserRoleEnum } from "src/enums/userRole.enum";
+import { CityEnum } from "src/enums/enum/city.enum";
+import { UserRoleEnum } from "src/enums/enum/userRole.enum";
 
 const userSchema = new Schema(
   {
