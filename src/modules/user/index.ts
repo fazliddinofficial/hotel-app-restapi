@@ -40,12 +40,33 @@ userRoute.post("/signUp", async (req, res): Promise<any> => {
   res.status(201).json(createdUser);
 });
 
-userRoute.post("/signIn", authToken, (req, res) => {
+userRoute.post("/signIn", async (req, res) => {
   const userEmail = req.body.email;
+  const userPassword = req.body.password;
+  const userRole = req.body.role;
 
-  const user = { email: userEmail };
+  const foundUser: any = await User.find({ email: userEmail })
+    .select({
+      password: 1,
+    })
+    .lean();
 
-  const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+  if (!foundUser) {
+    res.status(404).send("User is not found!");
+  }
+
+  const isPasswordValid = await bcrypt.compare(
+    userPassword,
+    foundUser.password
+  );
+
+  if (!isPasswordValid) {
+    res.status(400).send("Password is not match!");
+  }
+
+  const payload = { email: userEmail, password: userPassword, role: userRole };
+
+  const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
   res.json(accessToken);
 });
 
@@ -59,17 +80,19 @@ userRoute.put("/changeRole/:id", async (req, res) => {
   }
 });
 
-function authToken(req, res, next) {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
+export const authToken =
+  (roles = []) =>
+  (req, res, next) => {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
 
-  if (token == null) return res.status(401);
+    if (token == null) return res.status(401);
 
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if (err) {
-      return res.status(403).send("Token is not valid!");
-    }
-    req.user = user;
-    next();
-  });
-}
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+      if (err) {
+        return res.status(403).send("Token is not valid!");
+      }
+      req.user = user;
+      next();
+    });
+  };
