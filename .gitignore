@@ -1,10 +1,15 @@
-# compiled output
-/dist
-/node_modules
+# build
+dist/
 
-# IDE - VSCode
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+# packages
+node_modules/
+
+# logs
+**/*.log
+
+# IDE
+.vscode/
+
+# public folders
+public
+

@@ -4,6 +4,7 @@ import express, { Router } from "express";
 import jwt from "jsonwebtoken";
 import { User } from "./model/user.model";
 import userJoiSchema from "./validation";
+import { checkUserProperties } from "../auth";
 dotenv.config();
 
 const app = express();
@@ -57,7 +58,7 @@ userRoute.post("/signIn", async (req, res) => {
 
   const isPasswordValid = await bcrypt.compare(
     userPassword,
-    foundUser.password
+    foundUser.password,
   );
 
   if (!isPasswordValid) {
@@ -70,7 +71,7 @@ userRoute.post("/signIn", async (req, res) => {
   res.json(accessToken);
 });
 
-userRoute.put("/changeRole/:id", async (req, res) => {
+userRoute.put("/changeRole/:id", checkUserProperties, async (req, res) => {
   const updates = req.body;
   const foundUser = await User.findByIdAndUpdate(req.params.id, updates, {
     new: true,
