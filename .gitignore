@@ -1,14 +1,14 @@
 # build
-dist
+dist/
 
 # packages
-node_modules
+node_modules/
 
 # logs
 **/*.log
 
 # IDE
-.vscode
+.vscode/
 
 # public folders
 public
