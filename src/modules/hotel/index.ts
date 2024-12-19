@@ -1,7 +1,6 @@
 import { Router } from "express";
-import { Hotel } from "./model/hotel.model";
-import hotelJoiSchema from "./validation";
 import { checkUserProperties } from "../auth";
+import { Hotel } from "./model/hotel.model";
 
 export const hotelRoute = Router();
 
@@ -9,14 +8,18 @@ hotelRoute.post(
   "/create",
   checkUserProperties,
   async (req, res): Promise<any> => {
-    const { error, value } = hotelJoiSchema.validate(req.body);
-    if (error) {
-      return res.status(400).send(`Error during creating hotel! ${error}`);
-    }
-    const createdHotel = await Hotel.create(value);
+    try {
+      const { error, value } = hotelJoiSchema.validate(req.body);
+      if (error) {
+        return res.status(400).send(`Error during creating hotel! ${error}`);
+      }
+      const createdHotel = await Hotel.create(value);
 
-    res.status(201).json(createdHotel);
-  },
+      res.status(201).json(createdHotel);
+    } catch (error) {
+      res.status(500).send("Unexpected server error!");
+    }
+  }
 );
 
 hotelRoute.get("/:id", async (req, res): Promise<any> => {
@@ -46,5 +49,5 @@ hotelRoute.delete(
       return res.status(404).send("Hotel not found!");
     }
     res.status(200).send("Hotel has been deleted!");
-  },
+  }
 );
