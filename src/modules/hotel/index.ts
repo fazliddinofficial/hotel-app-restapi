@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { checkUserProperties } from "../auth";
 import { Hotel } from "./model/hotel.model";
+import hotelJoiSchema from "./validation";
 
 export const hotelRoute = Router();
 
