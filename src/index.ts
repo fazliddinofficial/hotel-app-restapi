@@ -10,11 +10,7 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 7000;
-app.use(
-  cors({
-    credentials: true,
-  })
-);
+app.use(cors({}));
 app.use(express.json());
 
 app.use("/hotel", hotelRoute);
