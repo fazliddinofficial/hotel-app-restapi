@@ -1,13 +1,20 @@
+import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
 import { hotelRoute } from "./modules/hotel";
 import { reviewRoute } from "./modules/review";
 import { userRoute } from "./modules/user";
+
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 7000;
+app.use(
+  cors({
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 app.use("/hotel", hotelRoute);

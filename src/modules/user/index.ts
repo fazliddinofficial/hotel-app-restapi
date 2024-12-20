@@ -29,68 +29,69 @@ userRoute.get("/:id", async (req, res): Promise<any> => {
 });
 
 userRoute.post("/signUp", async (req, res): Promise<any> => {
-  // try {
-  const { error, value } = userJoiSchema.validate(req.body);
+  try {
+    const { error, value } = userJoiSchema.validate(req.body);
 
-  const foundUser = await User.findOne(value.id);
+    const foundUser = await User.findOne({ email: value.email });
 
-  if (error || foundUser) {
-    return res.status(400).send("User is not created!");
+    if (error) {
+      return res.status(400).send(error);
+    }
+
+    if (foundUser) {
+      return res.status(400).send("User" + ERROR_MESSAGES.IS_ALREADY_EXIST);
+    }
+
+    const hashedPassword = await bcrypt.hash(value.password, 8);
+
+    const newUser = new User({
+      ...req.body,
+      password: hashedPassword,
+    });
+    const createdUser = await newUser.save();
+    res.status(201).json(createdUser);
+  } catch (error) {
+    res.status(500).send(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
   }
-
-  if (foundUser) {
-    return res.status(400).send(ERROR_MESSAGES.IS_ALREADY_EXIST);
-  }
-
-  const hashedPassword = await bcrypt.hash(value.password, 8);
-
-  const newUser = new User({
-    ...req.body,
-    password: hashedPassword,
-  });
-  const createdUser = await newUser.save();
-  res.status(201).json(createdUser);
-  // } catch (error) {
-  //   res.status(500).send(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
-  // }
 });
 
 userRoute.post("/signIn", async (req, res) => {
-  // try {
-  const userEmail = req.body.email;
-  const userPassword = req.body.password;
-  const userRole = req.body.role;
+  try {
+    const userEmail = req.body.email;
+    const userPassword = req.body.password;
+    const userRole = req.body.role;
 
-  const foundUser: any = await User.findOne({ email: userEmail })
-    .select({
-      password: 1,
-    })
-    .lean();
+    const foundUser: any = await User.findOne({ email: userEmail })
+      .select({
+        password: 1,
+      })
+      .lean();
 
-  if (!foundUser) {
-    res.status(404).send("User is not found!");
+    if (!foundUser) {
+      res.status(404).send("User is not found!");
+    }
+
+    const isPasswordValid = await bcrypt.compare(
+      userPassword,
+      foundUser.password
+    );
+
+    if (!isPasswordValid) {
+      res.status(400).send("Password is not match!");
+    }
+
+    const payload = {
+      email: userEmail,
+      password: userPassword,
+      role: userRole,
+    };
+
+    const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
+    res.header("authorization", `Bearer ${accessToken}`);
+    res.status(200).json(accessToken);
+  } catch (error) {
+    res.status(500).send(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
   }
-
-  const isPasswordValid = await bcrypt.compare(
-    userPassword,
-    foundUser.password
-  );
-
-  if (!isPasswordValid) {
-    res.status(400).send("Password is not match!");
-  }
-
-  const payload = {
-    email: userEmail,
-    password: userPassword,
-    role: userRole,
-  };
-
-  const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
-  res.status(200).json(foundUser);
-  // } catch (error) {
-  //   res.status(500).send(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
-  // }
 });
 
 userRoute.put("/changeRole/:id", checkUserProperties, async (req, res) => {
