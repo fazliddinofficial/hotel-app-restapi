@@ -9,11 +9,7 @@ import {
 
 export const hotelRoute = Router();
 
-hotelRoute.post(
-  "/create",
-  // checkUserProperties,
-  createHotel
-);
+hotelRoute.post("/create", checkUserProperties, createHotel);
 
 hotelRoute.get("/:id", getHotelById);
 
