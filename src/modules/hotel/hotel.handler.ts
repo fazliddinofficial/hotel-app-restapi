@@ -1,6 +1,9 @@
+import multer from "multer";
 import { ERROR_MESSAGES } from "src/constants/errors";
 import { Hotel } from "./model/hotel.model";
 import hotelJoiSchema from "./validation";
+
+const upload = multer({ dest: "uploads/" });
 
 export const createHotel = async (req, res): Promise<any> => {
   try {
@@ -53,5 +56,16 @@ export const deleteHotelById = async (req, res): Promise<any> => {
     res.status(200).send("Hotel has been deleted!");
   } catch (error) {
     res.status(500).send(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
+  }
+};
+
+export const uploadPicture = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).send("No file uploaded");
+    }
+    res.status(200).send("Upload successful");
+  } catch (error) {
+    res.status(500).send("Internal server error");
   }
 };

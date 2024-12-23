@@ -118,3 +118,39 @@ export const authToken =
       res.status(500).send(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
     }
   };
+
+export const updateUserPasswordById = async (req, res): Promise<any> => {
+  try {
+    const { id } = req.params;
+    const { oldPassword, newPassword } = req.body;
+
+    if (!oldPassword || !newPassword) {
+      return res.status(400).send("Both old and new passwords are required.");
+    }
+
+    const foundUser = await User.findById(id).select("password").lean();
+
+    if (!foundUser) {
+      return res.status(404).send("User not found!");
+    }
+
+    const isPasswordValid = await bcrypt.compare(
+      oldPassword,
+      foundUser.password
+    );
+    if (!isPasswordValid) {
+      return res.status(400).send("Old password is incorrect.");
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 8);
+    await User.findByIdAndUpdate(
+      id,
+      { password: hashedPassword },
+      { new: true }
+    );
+
+    res.status(200).send("Password updated successfully.");
+  } catch (err) {
+    res.status(500).send(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
+  }
+};
