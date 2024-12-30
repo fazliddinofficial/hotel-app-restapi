@@ -8,8 +8,11 @@ node_modules/
 **/*.log
 
 # IDE
-.vscode/
+.vscode
 
 # public folders
 public
 
+packages-lock.json
+
+yarn.lock
