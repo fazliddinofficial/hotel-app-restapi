@@ -1,8 +1,8 @@
 import Joi from "joi";
 import { CityEnum } from "src/enums/city.enum";
-import { Hotel } from "../interface";
+import { Hotel } from "../model/hotel.model";
 
-const hotelJoiSchema: Joi.ObjectSchema<Hotel> = Joi.object({
+const hotelJoiSchema: Joi.ObjectSchema<typeof Hotel> = Joi.object({
   name: Joi.string().required(),
   bedroom: Joi.number().integer().required(),
   address: Joi.string().required(),
