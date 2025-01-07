@@ -1,4 +1,6 @@
+import { generateRandomNumbers } from "src/utils/code";
 import { User } from "../user/model/user.model";
+import nodeMailer from 'nodemailer'
 
 export const checkUserProperties = async (req, res, next) => {
   const userId = req.body.id;
@@ -12,4 +14,43 @@ export const checkUserProperties = async (req, res, next) => {
   if (!foundUser.role || foundUser.role !== "Admin") {
     return res.status(403).send("You have no permission!");
   }
+};
+
+export const sendConfirmationCode = async ({
+  email,
+}: {email: string}): Promise<number> => {
+  const foundEmail = await User.findOne({ email });
+
+  if (!foundEmail) {
+    throw new Error('Email not found!');
+  }
+
+  const transporter = nodeMailer.createTransport({
+    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASSWORD,
+    },
+  });
+
+  const code = generateRandomNumbers(6);
+
+  const emailOptions = {
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: 'Confirming Code',
+    text: `Hello, this is your confirming code ${code}`,
+  };
+
+  transporter.sendMail(emailOptions, (err, info) => {
+    if (err) {
+      throw new Error('Error with sending code!');
+    }
+    console.log(`Email sent ${info}`);
+  });
+
+  return parseInt(code);
 };

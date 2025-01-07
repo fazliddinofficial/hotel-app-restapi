@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import { hotelRoute } from "./modules/hotel";
 import { reviewRoute } from "./modules/review";
 import { userRoute } from "./modules/user";
+import { sendConfirmationCode } from "./modules/auth";
 
 dotenv.config();
 
