@@ -1,8 +1,9 @@
 import { ERROR_MESSAGES } from "src/constants/errors";
 import { Review } from "./model";
 import reviewJoiSchema from "./validator";
+import {Request, Response} from 'express'
 
-export const createReview = async (req, res): Promise<any> => {
+export const createReview = async (req: Request, res: Response): Promise<any> => {
   try {
     const { error, value } = reviewJoiSchema.validate(req.body);
 
