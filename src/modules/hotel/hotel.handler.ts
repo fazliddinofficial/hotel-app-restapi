@@ -1,8 +1,9 @@
 import { ERROR_MESSAGES } from "src/constants/errors";
 import { Hotel } from "./model/hotel.model";
 import hotelJoiSchema from "./validation";
+import {Request, Response} from 'express'
 
-export const createHotel = async (req, res): Promise<any> => {
+export const createHotel = async (req:Request, res:Response): Promise<any> => {
   try {
     const { error, value } = hotelJoiSchema.validate(req.body);
     if (error) {
@@ -16,7 +17,7 @@ export const createHotel = async (req, res): Promise<any> => {
   }
 };
 
-export const getHotelById = async (req, res): Promise<any> => {
+export const getHotelById = async (req:Request, res:Response): Promise<any> => {
   try {
     const foundHotel = await Hotel.findById(req.params.id);
     if (!foundHotel) {
@@ -28,7 +29,7 @@ export const getHotelById = async (req, res): Promise<any> => {
   }
 };
 
-export const updateHotelById = async (req, res): Promise<any> => {
+export const updateHotelById = async (req:Request, res:Response): Promise<any> => {
   try {
     const updates = req.body;
     const { id } = req.params;
@@ -44,7 +45,7 @@ export const updateHotelById = async (req, res): Promise<any> => {
   }
 };
 
-export const deleteHotelById = async (req, res): Promise<any> => {
+export const deleteHotelById = async (req:Request, res:Response): Promise<any> => {
   try {
     const deletedHotel = await Hotel.findByIdAndDelete(req.params.id);
     if (!deletedHotel) {

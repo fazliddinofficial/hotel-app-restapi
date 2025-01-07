@@ -1,8 +1,8 @@
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import { ERROR_MESSAGES } from "src/constants/errors";
 import { User } from "./model/user.model";
 import userJoiSchema from "./validation";
+import { Request, Response } from "express";
 
 export const getUserById = async (req, res): Promise<any> => {
   try {
@@ -22,11 +22,11 @@ export const signUp = async (req, res): Promise<any> => {
   try {
     const { error, value } = userJoiSchema.validate(req.body);
 
-    const foundUser = await User.findOne({ email: value.email });
-
     if (error) {
       return res.status(400).send(error);
     }
+    
+    const foundUser = await User.findOne({ email: value.email });
 
     if (foundUser) {
       return res.status(400).send("User" + ERROR_MESSAGES.IS_ALREADY_EXIST);
@@ -49,11 +49,12 @@ export const signIn = async (req, res) => {
   try {
     const userEmail = req.body.email;
     const userPassword = req.body.password;
-    const userRole = req.body.role;
 
     const foundUser: any = await User.findOne({ email: userEmail })
       .select({
+        _id: 1,
         password: 1,
+        role: 1,
       })
       .lean();
 
@@ -71,14 +72,15 @@ export const signIn = async (req, res) => {
     }
 
     const payload = {
+      userId: foundUser._id,
       email: userEmail,
       password: userPassword,
-      role: userRole,
+      role: foundUser.role,
     };
+    console.log(foundUser.role);
+    
 
-    const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
-    res.header("authorization", `Bearer ${accessToken}`);
-    res.status(200).json(accessToken);
+    res.status(200).json(payload);
   } catch (error) {
     res.status(500).send(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
   }
@@ -97,24 +99,3 @@ export const changeUserRoleById = async (req, res) => {
     res.status(500).send(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
   }
 };
-
-export const authToken =
-  (roles = []) =>
-  (req, res, next) => {
-    try {
-      const authHeader = req.headers["authorization"];
-      const token = authHeader && authHeader.split(" ")[1];
-
-      if (token == null) return res.status(401);
-
-      jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-        if (err) {
-          return res.status(403).send("Token is not valid!");
-        }
-        req.user = user;
-        next();
-      });
-    } catch (error) {
-      res.status(500).send(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
-    }
-  };

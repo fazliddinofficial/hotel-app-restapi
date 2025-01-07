@@ -1,8 +1,8 @@
 authtoken: "2pqvgyNK6OR8ZhDI1bxr2ACPWqY_45k8EGEbKbp2KkzMHJqGx"
 region: us
 tunnels:
-  web:
-    addr: 8080
+  backend:
+    addr: 8000
     proto: http
   ssh:
     addr: 22
