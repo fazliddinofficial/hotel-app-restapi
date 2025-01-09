@@ -4,4 +4,5 @@ export const MODELS = {
   REVIEW: "review",
   FAVORITE_HOTEL: "favoriteHotel",
   ROOM: "Room",
+  ORDER_ITEM: "orderItem"
 };

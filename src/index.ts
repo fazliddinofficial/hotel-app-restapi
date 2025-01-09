@@ -2,12 +2,13 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
+
 import { hotelRoute } from "./modules/hotel";
 import { reviewRoute } from "./modules/review";
 import { userRoute } from "./modules/user";
-import { sendConfirmationCode } from "./modules/auth";
 import { favoriteHotelRoute } from "./modules/favoriteHotel";
 import { roomRoute } from "./modules/room";
+import { orderItemRoute } from "./modules/orderItem";
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ app.use("/review", reviewRoute);
 app.use("/user", userRoute);
 app.use("/favorite", favoriteHotelRoute);
 app.use("/room", roomRoute);
+app.use("/order", orderItemRoute)
 
 app.get("/", (req, res) => {
   res.status(200).send("This is main page");

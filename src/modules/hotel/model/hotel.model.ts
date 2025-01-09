@@ -9,7 +9,7 @@ const hotelSchema = new Schema(
     address: { type: String, required: true },
     carpetArea: { type: String, required: true },
     bathroom: { type: Number, required: true },
-    city: { type: String, enum: CityEnum, required: true },
+    city: { type: String, enum: Object.keys(CityEnum), required: true },
     image: [{ type: String }],
     postalCode: { type: String, required: true },
     owner: { type: Types.ObjectId, required: true, ref: MODELS.USER },
