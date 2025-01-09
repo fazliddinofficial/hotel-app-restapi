@@ -7,6 +7,7 @@ import { reviewRoute } from "./modules/review";
 import { userRoute } from "./modules/user";
 import { sendConfirmationCode } from "./modules/auth";
 import { favoriteHotelRoute } from "./modules/favoriteHotel";
+import { roomRoute } from "./modules/room";
 
 dotenv.config();
 
@@ -18,7 +19,8 @@ app.use(express.json());
 app.use("/hotel", hotelRoute);
 app.use("/review", reviewRoute);
 app.use("/user", userRoute);
-app.use("/favorite/", favoriteHotelRoute)
+app.use("/favorite", favoriteHotelRoute);
+app.use("/room", roomRoute);
 
 app.get("/", (req, res) => {
   res.status(200).send("This is main page");

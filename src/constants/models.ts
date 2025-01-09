@@ -2,5 +2,6 @@ export const MODELS = {
   USER: "User",
   HOTEL: "Hotel",
   REVIEW: "review",
-  FAVORITE_HOTEL: "favoriteHotel"
+  FAVORITE_HOTEL: "favoriteHotel",
+  ROOM: "Room",
 };
