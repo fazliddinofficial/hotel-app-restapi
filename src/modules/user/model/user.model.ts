@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, Types } from "mongoose";
 import { MODELS } from "src/constants/models";
 import { CityEnum } from "src/enums/enum/city.enum";
 import { UserRoleEnum } from "src/enums/enum/userRole.enum";
@@ -20,6 +20,10 @@ const userSchema = new Schema(
       enum: UserRoleEnum,
       default: MODELS.USER,
     },
+    order: {
+      type: Types.ObjectId,
+      ref: MODELS.ORDER_ITEM
+    }
   },
   { timestamps: true }
 );
