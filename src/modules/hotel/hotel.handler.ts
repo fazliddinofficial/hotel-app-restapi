@@ -4,7 +4,7 @@ import hotelJoiSchema from "./validation";
 import {Request, Response} from 'express'
 
 export const createHotel = async (req:Request, res:Response): Promise<any> => {
-  try {
+  try {    
     const { error, value } = hotelJoiSchema.validate(req.body);
     if (error) {
       return res.status(400).send(`Error during creating hotel! ${error}`);
@@ -56,3 +56,13 @@ export const deleteHotelById = async (req:Request, res:Response): Promise<any> =
     res.status(500).send(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
   }
 };
+
+export const getAllHotels = async (req,res) => {
+  try {    
+    const foundHotels = await Hotel.find();
+
+    res.status(200).send(foundHotels)
+  } catch (error) {
+    res.status(500).send(ERROR_MESSAGES.INTERNAL_SERVER_ERROR)
+  }
+}
