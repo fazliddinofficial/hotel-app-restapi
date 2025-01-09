@@ -11,7 +11,7 @@ const hotelJoiSchema: Joi.ObjectSchema<typeof Hotel> = Joi.object({
   city: Joi.string()
     .valid(...CityEnum)
     .required(),
-  image: Joi.array().items(Joi.string().uri()),
+  image: Joi.array().items(Joi.string()),
   postalCode: Joi.string().required(),
   owner: Joi.string().pattern(/^[0-9a-fA-F]{24}$/),
   hasWifi: Joi.boolean(),
@@ -21,7 +21,7 @@ const hotelJoiSchema: Joi.ObjectSchema<typeof Hotel> = Joi.object({
     Joi.object({
       userId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/),
       rating: Joi.number().min(1).max(5),
-    })
+    }),
   ),
   averageRating: Joi.number().min(0).max(5).default(0),
   createdAt: Joi.date().default(new Date()),
