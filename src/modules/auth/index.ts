@@ -17,9 +17,7 @@ export const checkUserProperties = async (req, res, next) => {
 };
 
 export const sendConfirmationCode = async (req,res): Promise<any> => {
-  console.log(req.body);
   
-  const email = req.body.email
   const foundEmail = await User.findOne({ email });
 
   if (!foundEmail) {
@@ -52,6 +50,6 @@ export const sendConfirmationCode = async (req,res): Promise<any> => {
     }
     console.log(`Email sent ${info}`);
   });
-
+  
   res.status(200).send({code: code})
 };
