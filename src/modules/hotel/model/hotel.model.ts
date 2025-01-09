@@ -10,7 +10,7 @@ const hotelSchema = new Schema(
     carpetArea: { type: String, required: true },
     bathroom: { type: Number, required: true },
     city: { type: String, enum: CityEnum, required: true },
-    image: [{ type: String, required: true }],
+    image: [{ type: String }],
     postalCode: { type: String, required: true },
     owner: { type: Types.ObjectId, required: true, ref: MODELS.USER },
     hasWifi: { type: Boolean },

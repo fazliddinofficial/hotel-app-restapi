@@ -3,16 +3,19 @@ import { checkUserProperties } from "../auth";
 import {
   createHotel,
   deleteHotelById,
+  getAllHotels,
   getHotelById,
   updateHotelById,
 } from "./hotel.handler";
 
 export const hotelRoute = Router();
 
-hotelRoute.post("/create", checkUserProperties, createHotel);
+hotelRoute.post("/create", createHotel);
 
-hotelRoute.get("/:id", getHotelById);
+hotelRoute.get("/find/:id", getHotelById);
 
 hotelRoute.put("/:id", checkUserProperties, updateHotelById);
 
 hotelRoute.delete("/:id", checkUserProperties, deleteHotelById);
+
+hotelRoute.get("/all-get", getAllHotels)

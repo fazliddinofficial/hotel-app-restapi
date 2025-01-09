@@ -2,7 +2,6 @@ import bcrypt from "bcrypt";
 import { ERROR_MESSAGES } from "src/constants/errors";
 import { User } from "./model/user.model";
 import userJoiSchema from "./validation";
-import { Request, Response } from "express";
 
 export const getUserById = async (req, res): Promise<any> => {
   try {
@@ -59,7 +58,7 @@ export const signIn = async (req, res) => {
       .lean();
 
     if (!foundUser) {
-      res.status(404).send("User is not found!");
+      return res.status(404).send("User is not found!");
     }
 
     const isPasswordValid = await bcrypt.compare(
@@ -68,7 +67,7 @@ export const signIn = async (req, res) => {
     );
 
     if (!isPasswordValid) {
-      res.status(400).send("Password is not match!");
+      return res.status(400).send("Password is not match!");
     }
 
     const payload = {
@@ -79,10 +78,9 @@ export const signIn = async (req, res) => {
     };
     console.log(foundUser.role);
     
-
-    res.status(200).json(payload);
+    return res.status(200).json(payload);
   } catch (error) {
-    res.status(500).send(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
+    return res.status(500).send(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
   }
 };
 

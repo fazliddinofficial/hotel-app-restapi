@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import express, { Router } from "express";
-import { checkUserProperties } from "../auth";
+import { checkUserProperties, sendConfirmationCode } from "../auth";
 import {
   changeUserRoleById,
   getUserById,
@@ -22,3 +22,5 @@ userRoute.post("/signUp", signUp);
 userRoute.post("/signIn", signIn);
 
 userRoute.put("/changeRole/:id", checkUserProperties, changeUserRoleById);
+
+userRoute.post("/forgot/password", sendConfirmationCode)

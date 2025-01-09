@@ -16,9 +16,8 @@ export const checkUserProperties = async (req, res, next) => {
   }
 };
 
-export const sendConfirmationCode = async ({
-  email,
-}: {email: string}): Promise<number> => {
+export const sendConfirmationCode = async (req,res): Promise<any> => {
+  
   const foundEmail = await User.findOne({ email });
 
   if (!foundEmail) {
@@ -51,6 +50,6 @@ export const sendConfirmationCode = async ({
     }
     console.log(`Email sent ${info}`);
   });
-
-  return parseInt(code);
+  
+  res.status(200).send({code: code})
 };
