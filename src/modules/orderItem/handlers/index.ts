@@ -16,7 +16,7 @@ export const createOrderItem = async (req: Request, res: Response) => {
     const createdOrderItem = await OrderItem.create(data);
 
     await Room.findByIdAndUpdate(
-      { _id: data.orderedRoom },
+      data.roomId,
       { isRented: true },
       { new: true }
     );
