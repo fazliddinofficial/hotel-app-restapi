@@ -31,6 +31,10 @@ const roomSchema = new Schema<RoomType>(
       type: Boolean,
       default: false,
     },
+    price: {
+      type: Number,
+      required: true
+    }
   },
   { timestamps: true },
 );

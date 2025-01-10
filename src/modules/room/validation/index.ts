@@ -8,6 +8,7 @@ const RoomSchemaJoi: Joi.ObjectSchema<RoomType> = Joi.object({
   imgs: Joi.array().items(Joi.string()),
   hotel: Joi.string().trim().length(24).hex().required(),
   isRented: Joi.boolean().default(false),
+  price: Joi.number().required(),
 });
 
 export default RoomSchemaJoi;
