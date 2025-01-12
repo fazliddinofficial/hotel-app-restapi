@@ -1,16 +1,10 @@
 import { ERROR_MESSAGES } from "src/constants/errors";
 import { Room } from "../model";
 import hotelJoiSchema from "src/modules/hotel/validation";
-import RoomSchemaJoi from "../validation";
 import { RoomType } from "../types";
 
 export const createRoom = async (req, res) => {
   try {
-    const { error, value } = RoomSchemaJoi.validate(req.body);
-
-    if (error) {
-      res.status(400).send("All fields of property is required! " + error);
-    }
     const createdRoom = await Room.create(req.body);
 
     res.status(201).send(createdRoom);
@@ -23,7 +17,7 @@ export const getRoom = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const foundRoom = await Room.findById(id);
+    const foundRoom = await Room.find({hotel: id});
 
     if (!foundRoom) {
       res.status(404).send("Room" + ERROR_MESSAGES.NOT_FOUND);

@@ -80,7 +80,7 @@ export const signIn = async (req, res) => {
     
     return res.status(200).json(payload);
   } catch (error) {
-    return res.status(500).send(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
+    res.status(500).send(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
   }
 };
 

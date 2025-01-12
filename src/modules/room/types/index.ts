@@ -7,5 +7,8 @@ export interface RoomType {
   imgs: string[];
   hotel: typeof Types.ObjectId;
   isRented: boolean;
-  price: number
+  price: number;
+  description: string
+  guestsNumber: number
+  hasWifi: boolean
 }

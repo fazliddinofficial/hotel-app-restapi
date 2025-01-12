@@ -34,6 +34,12 @@ const roomSchema = new Schema<RoomType>(
     price: {
       type: Number,
       required: true
+    },
+    description: String,
+    guestsNumber: Number,
+    hasWifi: {
+      type: Boolean,
+      default: false
     }
   },
   { timestamps: true },

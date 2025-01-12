@@ -14,7 +14,7 @@ export const roomRoute = Router();
 
 roomRoute.post("/", createRoom);
 
-roomRoute.get("/:id", getRoom);
+roomRoute.get("/get/:id", getRoom);
 
 roomRoute.put("/:id", updateRoomById);
 
