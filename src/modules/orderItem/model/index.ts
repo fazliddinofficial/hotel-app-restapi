@@ -18,7 +18,7 @@ const orderItemSchema = new Schema<OrderItemType>(
     },
     paymentType: {
       type: String,
-      enum: Object.keys(PaymentTypeEnum),
+      enum: Object.values(PaymentTypeEnum),
       required: true,
     },
     orderedRoom: {

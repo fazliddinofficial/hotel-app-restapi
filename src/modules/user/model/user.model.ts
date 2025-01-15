@@ -22,8 +22,8 @@ const userSchema = new Schema(
     },
     order: {
       type: Types.ObjectId,
-      ref: MODELS.ORDER_ITEM
-    }
+      ref: MODELS.ORDER_ITEM,
+    },
   },
   { timestamps: true }
 );

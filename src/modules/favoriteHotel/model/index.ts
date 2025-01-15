@@ -4,10 +4,15 @@ import { MODELS } from "src/constants/models";
 const favoriteHotelSchema = new Schema(
   {
     hotel: {
-      type: [Types.ObjectId],
+      type: Types.ObjectId,
       ref: MODELS.HOTEL,
       required: true,
     },
+    user: {
+      type: Types.ObjectId,
+      ref: MODELS.USER,
+      required: true
+    }
   },
   { timestamps: true },
 );
