@@ -14,6 +14,5 @@ export type OrderItemType = {
   endingDate: Date;
   numberOfGuests: number;
   paymentType: PaymentTypeEnum;
-  orderedRoom: typeof Types.ObjectId; 
   roomId: typeof Types.ObjectId;
 }

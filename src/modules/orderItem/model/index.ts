@@ -21,11 +21,6 @@ const orderItemSchema = new Schema<OrderItemType>(
       enum: Object.values(PaymentTypeEnum),
       required: true,
     },
-    orderedRoom: {
-      type: Types.ObjectId,
-      ref: MODELS.ROOM,
-      required: true,
-    },
     phone: {
       type: String,
       required: true,

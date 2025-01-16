@@ -33,7 +33,8 @@ export const createOrderItem = async (req: Request, res: Response) => {
 
     res.status(201).send({
       message: "Successfully ordered!",
-      data: createdOrderItem,
+      data: data,
+      foundUser
     });
   } catch (error) {
     res.status(500).send(ERROR_MESSAGES.INTERNAL_SERVER_ERROR + error);
