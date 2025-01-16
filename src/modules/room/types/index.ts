@@ -5,7 +5,7 @@ export interface RoomType {
   bedRoom: number;
   bathroom: number;
   imgs: string[];
-  hotel: typeof Types.ObjectId;
+  hotelId: typeof Types.ObjectId;
   isRented: boolean;
   price: number;
   description: string

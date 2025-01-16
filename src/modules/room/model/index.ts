@@ -22,7 +22,7 @@ const roomSchema = new Schema<RoomType>(
         type: String,
       },
     ],
-    hotel: {
+    hotelId: {
       type: Types.ObjectId,
       ref: MODELS.HOTEL,
       required: true,
