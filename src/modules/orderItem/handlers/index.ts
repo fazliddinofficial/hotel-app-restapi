@@ -11,6 +11,7 @@ export const createOrderItem = async (req: Request, res: Response) => {
 
     if (!data) {
       res.status(400).send("All data is required!");
+      return; 
     }
 
     const createdOrderItem = await OrderItem.create(data);
@@ -29,6 +30,7 @@ export const createOrderItem = async (req: Request, res: Response) => {
 
     if(!foundUser){
       res.status(404).send("User"+ERROR_MESSAGES.NOT_FOUND)
+      return; 
     }
 
     res.status(201).send({
