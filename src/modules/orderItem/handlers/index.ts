@@ -53,6 +53,6 @@ export const cancelOrderById = async (req: Request, res: Response) => {
 
     res.status(200).send('Order canceled successfully!')
   } catch (error) {
-    
+    res.status(400).send(error)
   }
 }
