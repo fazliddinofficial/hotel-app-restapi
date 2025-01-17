@@ -16,11 +16,16 @@ export const createOrderItem = async (req: Request, res: Response) => {
 
     const createdOrderItem = await OrderItem.create(data);
 
-    await Room.findByIdAndUpdate(
+    const foundRoom = await Room.findByIdAndUpdate(
       data.roomId,
       { isRented: true },
       { new: true }
     );
+
+    if (!foundRoom) {
+      res.status(404).send("Room is not found!");
+      return;
+    }
 
     const foundUser = await User.findOneAndUpdate(
       { email: data.email },
