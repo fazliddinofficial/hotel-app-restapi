@@ -3,6 +3,7 @@ import { checkUserProperties } from "../auth";
 import {
   createHotel,
   deleteHotelById,
+  filteredHotels,
   getAllHotels,
   getHotelById,
   updateHotelById,
@@ -19,3 +20,5 @@ hotelRoute.put("/:id", checkUserProperties, updateHotelById);
 hotelRoute.delete("/:id", checkUserProperties, deleteHotelById);
 
 hotelRoute.get("/all-get", getAllHotels)
+
+hotelRoute.get('/filter', filteredHotels)

@@ -2,6 +2,8 @@ import { ERROR_MESSAGES } from "src/constants/errors";
 import { Hotel } from "./model/hotel.model";
 import hotelJoiSchema from "./validation";
 import {Request, Response} from 'express'
+import { Room } from "../room/model";
+import { MODELS } from "src/constants/models";
 
 export const createHotel = async (req:Request, res:Response): Promise<any> => {
   try {    
@@ -64,5 +66,23 @@ export const getAllHotels = async (req,res) => {
     res.status(200).send(foundHotels)
   } catch (error) {
     res.status(500).send(ERROR_MESSAGES.INTERNAL_SERVER_ERROR)
+  }
+}
+
+export const filteredHotels = async (req: Request, res: Response)=>{
+  try {
+    const {guestsNumber, place} = req.body;
+    const rooms = await Room.find({
+      guestsNumber: { $gte: guestsNumber },
+    }).populate({
+      path: 'hotelId',
+      model: MODELS.HOTEL,
+      match: {city: place}
+    });
+
+    const availableRooms = rooms.filter(room => room.hotelId);
+    res.status(200).json(availableRooms)
+  } catch (error) {
+    res.status(400).send(error)
   }
 }
