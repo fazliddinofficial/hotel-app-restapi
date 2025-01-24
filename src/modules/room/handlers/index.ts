@@ -6,7 +6,7 @@ import { RoomType } from "../types";
 export const createRoom = async (req, res) => {
   try {
     const createdRoom = await Room.create(req.body);
-    console.log(req.body)
+
     res.status(201).send(createdRoom);
   } catch ({ message }) {
     res.status(500).send(ERROR_MESSAGES.INTERNAL_SERVER_ERROR + message);
