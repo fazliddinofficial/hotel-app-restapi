@@ -76,7 +76,6 @@ export const signIn = async (req, res) => {
       password: userPassword,
       role: foundUser.role,
     };
-    console.log(foundUser.role);
     
     return res.status(200).json(payload);
   } catch (error) {
