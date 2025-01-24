@@ -1,9 +1,19 @@
 import { model, Schema, Types } from "mongoose";
-import { OrderItemType, PaymentTypeEnum } from "../types";
+import { OrderItemType, OrderStatus, PaymentTypeEnum } from "../types";
 import { MODELS } from "src/constants/models";
 
 const orderItemSchema = new Schema<OrderItemType>(
   {
+    userId: {
+      type: Types.ObjectId,
+      ref: MODELS.USER,
+      required: true
+    },
+    status: {
+      type: String,
+      enum: Object.keys(OrderStatus),
+      default: OrderStatus.pending
+    },
     email: {
       type: String,
       required: true,
@@ -27,11 +37,11 @@ const orderItemSchema = new Schema<OrderItemType>(
     },
     startingDate: {
       type: Date,
-      // required: true,
+      required: true,
     },
     endingDate: {
       type: Date,
-      // required: true,
+      required: true,
     },
   },
   { timestamps: true }
